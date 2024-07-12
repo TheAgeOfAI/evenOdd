@@ -1,12 +1,13 @@
 import numpy as np
+import math
 
 
 class Neuron:
     def __init__(self):
-        self._weight = np.random.random()
-        self._bias = np.random.random()
-        self.learning_rate = 0.0001
-        self.epoch = 10000
+        self._weight = 1 # np.random.random()
+        self._bias = 0 # np.random.random()
+        self.learning_rate = 0.01
+        self.epoch = 200
 
     def get_weight(self):
         return self._weight
@@ -21,7 +22,9 @@ class Neuron:
         self._bias = bias
 
     def sigma(self, data):
-        return data * self.get_weight() + self.get_bias()
+        return math.sin(
+            math.radians(self.get_weight() * data) * math.radians(math.pi)
+            ) + self.get_bias()
 
     def get_values(self):
         print(f"Weight is : {self.get_weight()}")
@@ -42,7 +45,9 @@ class Perceptron(Neuron):
                 error = y_train[i] - prediction
 
                 self.set_weight(self.get_weight() + self.learning_rate * error * x_train[i])
+                # print(self.get_weight(), i, error)
                 self.set_bias(self.get_bias() + self.learning_rate * error)
+            # print("weight for epoch = ", self.get_weight())
 
     def predict_train(self, x_test):
 
